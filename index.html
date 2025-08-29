@@ -1,76 +1,93 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pikanshu | Personal Website</title>
+  <title>Photo Editor | Pikanshu</title>
+  <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      padding: 20px;
       background: #222;
-      color: #fff;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    #editor {
+      max-width: 600px;
+      margin: auto;
     }
     img {
-      margin-top: 20px;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      border: 5px solid #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      max-width: 100%;
     }
-    h1 {
-      margin-top: 15px;
-      color: #333;
-    }
-    p {
-      font-size: 18px;
-      color: #555;
-    }
-    .links a {
-      display: inline-block;
+    button, input {
       margin: 10px;
-      padding: 10px 20px;
-      background: #333;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
-    .links a:hover {
-      background: #555;
-    }
-    footer {
-      margin-top: 40px;
       padding: 10px;
-      background: #222;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background: #2575fc;
       color: white;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Welcome to My Website</h2>
-  </header>
+  <h1>🖼 Photo Editor by Pikanshu</h1>
 
-  <img src="https://raw.githubusercontent.com/thepikanshu/thepikanshu.github.io/refs/heads/main/IMG_20250801_101903_750.webp" alt="My Photo">
-
-  <h1>Hi, I'm Pikanshu</h1>
-  <p>This is my personal website. Connect with me below 👇</p>
-
-  <div class="links">
-    <a href="https://instagram.com/crazysu_man" target="_blank">Instagram</a>
-    <a href="mailto:rskraj012345@gmail.com">Email Me</a>
+  <input type="file" id="upload">
+  <div id="editor">
+    <img id="image">
   </div>
 
-  <footer>
-    <p>© 2025 Pikanshu | All Rights Reserved</p>
-  </footer>
+  <br>
+  <button id="crop">✂️ Crop</button>
+  <label>Brightness: <input type="range" id="brightness" min="50" max="150" value="100"></label>
+  <label>Contrast: <input type="range" id="contrast" min="50" max="150" value="100"></label>
+  <button id="download">⬇️ Download</button>
+
+  <script src="https://unpkg.com/cropperjs"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const image = document.getElementById('image');
+    let cropper;
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        image.src = URL.createObjectURL(file);
+        if (cropper) cropper.destroy();
+        image.onload = () => {
+          cropper = new Cropper(image, { aspectRatio: NaN });
+        }
+      }
+    });
+
+    document.getElementById('crop').addEventListener('click', () => {
+      if (cropper) {
+        const canvas = cropper.getCroppedCanvas();
+        image.src = canvas.toDataURL();
+        cropper.destroy();
+        cropper = null;
+      }
+    });
+
+    document.getElementById('brightness').addEventListener('input', applyFilters);
+    document.getElementById('contrast').addEventListener('input', applyFilters);
+
+    function applyFilters() {
+      const brightness = document.getElementById('brightness').value;
+      const contrast = document.getElementById('contrast').value;
+      image.style.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+    }
+
+    document.getElementById('download').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = "edited-photo.png";
+      link.href = image.src;
+      link.click();
+    });
+  </script>
 </body>
 </html>
