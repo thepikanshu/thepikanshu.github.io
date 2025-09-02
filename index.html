@@ -1,31 +1,181 @@
-!      };
-      reader.readAsDataURL(file);
-    });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pikanshu's Website</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
-    function applyFilter(type) {
-      let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        let r = data[i], g = data[i+1], b = data[i+2];
-        if (type === 'grayscale') {
-          let avg = (r + g + b) / 3;
-          data[i] = data[i+1] = data[i+2] = avg;
-        } else if (type === 'invert') {
-          data[i] = 255 - r; data[i+1] = 255 - g; data[i+2] = 255 - b;
-        } else if (type === 'sepia') {
-          data[i] = (0.393*r + 0.769*g + 0.189*b);
-          data[i+1] = (0.349*r + 0.686*g + 0.168*b);
-          data[i+2] = (0.272*r + 0.534*g + 0.131*b);
-        }
-      }
-      ctx.putImageData(imageData, 0, 0);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
     }
 
-    function resetImage() {
-      if (originalImageData) {
-        ctx.putImageData(originalImageData, 0, 0);
-      }
+    body {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      line-height: 1.6;
     }
-  </script>
+
+    header {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #e0e0e0;
+    }
+
+    .about {
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .about img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+    }
+
+    .gallery {
+      max-width: 1000px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 15px;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .contact {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+    }
+
+    .contact h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .contact input, .contact textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .contact button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #ff9800;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact button:hover {
+      background: #e68900;
+    }
+
+    .social {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .social a {
+      display: inline-block;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 15px;
+      border-radius: 50px;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      background: #fff;
+      color: #2575fc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>✨ Pikanshu Kumar ✨</h1>
+    <p>Welcome to my Stylish Website</p>
+  </header>
+
+  <section class="about">
+    <img src="https://raw.githubusercontent.com/thepikanshu/thepikanshu.github.io/refs/heads/main/IMG_20250801_101903_750.webp" alt="Profile">
+    <h2>About Me</h2>
+    <p>Hello! I am Pikanshu. This is my personal website where I share my photos, thoughts, and projects. Stay connected! 🚀</p>
+  </section>
+
+  <section class="gallery">
+    <img src="https://raw.githubusercontent.com/thepikanshu/thepikanshu.github.io/refs/heads/main/IMG_20250801_101903_750.webp" alt="Photo 1">
+    <img src="https://via.placeholder.com/400x250" alt="Photo 2">
+    <img src="https://via.placeholder.com/400x250" alt="Photo 3">
+  </section>
+
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <div class="social">
+    <a href="https://www.instagram.com/crazysu_man" target="_blank">Instagram</a>
+    <a href="https://www.youtube.com/@pikanshukumar012" target="_blank">YouTube</a>
+    <a href="#">Facebook</a>
+  </div>
+
+  <footer>
+    <p>© 2025 Pikanshu Kumar | All Rights Reserved</p>
+  </footer>
 </body>
 </html>
